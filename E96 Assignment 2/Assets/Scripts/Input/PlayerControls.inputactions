@@ -1,0 +1,54 @@
+{
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "Basic Gameplay",
+            "id": "688e3f68-74f1-4c44-9c0a-ae00a405a4e4",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Value",
+                    "id": "c627e4d3-8164-429d-8127-c5687a146e24",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Pancaking",
+                    "type": "Value",
+                    "id": "8bc74c60-5fda-4358-b3af-c6a4d506309f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0a50b63f-265e-430d-945a-96d6a7ddefcc",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2b744fc-b7fc-4a8b-9d2d-bfab6b14c1db",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pancaking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
