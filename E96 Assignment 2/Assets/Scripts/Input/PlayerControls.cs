@@ -44,6 +44,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""60d0c8c8-860d-4c34-9caa-87666bfe408f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,61 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Pancaking"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""6a86799f-db2e-4a3e-b45a-1b5957b6da3d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""abf3419e-6e5c-4d80-b086-49247cac6fd3"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""f0060eea-e3ac-4a11-b3ec-d179804195e9"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""1d8774ac-eb17-4471-9666-6a3509a3ee5d"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""982dcb84-38eb-44a4-8796-558607f4aceb"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -78,6 +142,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_BasicGameplay = asset.FindActionMap("Basic Gameplay", throwIfNotFound: true);
         m_BasicGameplay_Jump = m_BasicGameplay.FindAction("Jump", throwIfNotFound: true);
         m_BasicGameplay_Pancaking = m_BasicGameplay.FindAction("Pancaking", throwIfNotFound: true);
+        m_BasicGameplay_Movement = m_BasicGameplay.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,12 +206,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IBasicGameplayActions> m_BasicGameplayActionsCallbackInterfaces = new List<IBasicGameplayActions>();
     private readonly InputAction m_BasicGameplay_Jump;
     private readonly InputAction m_BasicGameplay_Pancaking;
+    private readonly InputAction m_BasicGameplay_Movement;
     public struct BasicGameplayActions
     {
         private @PlayerControls m_Wrapper;
         public BasicGameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_BasicGameplay_Jump;
         public InputAction @Pancaking => m_Wrapper.m_BasicGameplay_Pancaking;
+        public InputAction @Movement => m_Wrapper.m_BasicGameplay_Movement;
         public InputActionMap Get() { return m_Wrapper.m_BasicGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,6 +229,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pancaking.started += instance.OnPancaking;
             @Pancaking.performed += instance.OnPancaking;
             @Pancaking.canceled += instance.OnPancaking;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
         }
 
         private void UnregisterCallbacks(IBasicGameplayActions instance)
@@ -172,6 +242,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Pancaking.started -= instance.OnPancaking;
             @Pancaking.performed -= instance.OnPancaking;
             @Pancaking.canceled -= instance.OnPancaking;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
         }
 
         public void RemoveCallbacks(IBasicGameplayActions instance)
@@ -193,5 +266,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnJump(InputAction.CallbackContext context);
         void OnPancaking(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }

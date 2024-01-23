@@ -10,22 +10,40 @@ public class NewInput : MonoBehaviour
     private PlayerControls playerControls;
     private Rigidbody rb;
 
+    [SerializeField] float jumpForce = 5f;
+
+    private Transform transformValues;
+    private float originalYScale;
+
+
     // Start is called before the first frame update
     void Start()
     {
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody>();
+
+        transformValues = GetComponent<Transform>();
+        originalYScale = transformValues.localScale.y;
     }
 
-    public void OnJump()
+
+
+    void OnJump()
     {
-        Debug.Log("Jump!");
+        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
     }
 
-    public void OnPancaking(InputValue input)
+    void OnPancaking(InputValue input)
     {
         float val = input.Get<float>();
 
-        Debug.Log(val);
+        if(val == 1)
+        {
+            transformValues.localScale = new Vector3(transformValues.localScale.x * 2f, transformValues.localScale.y / 2f, transformValues.localScale.z * 2f);
+        }
+        else
+        {
+            transformValues.localScale = new Vector3(transformValues.localScale.x / 2f, transformValues.localScale.y * 2f, transformValues.localScale.z / 2f);
+        }
     }
 }
